@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, Menu, Zap, Gem, ChevronRight } from 'lucide-react';
+import { Search, Bell, Menu, Zap, Gem, ChevronRight, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useProgressStore } from '@/stores/progressStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
+import { notificationService } from '@/services/notificationService';
+import type { Notification } from '@/types';
 import { cn } from '@/lib/utils';
 
 export function Header() {
@@ -12,8 +14,49 @@ export function Header() {
   const { xp, bytes, streak } = useProgressStore();
   const { profile } = useAuthStore();
   const { toggleSidebar } = useUIStore();
+  
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef<HTMLDivElement>(null);
+
+  const unreadCount = notifications.filter(n => !n.is_read).length;
+
+  useEffect(() => {
+    if (profile) {
+      notificationService.getUserNotifications(profile.id)
+        .then(setNotifications)
+        .catch(console.error);
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleNotificationClick = async (notification: Notification) => {
+    if (!notification.is_read) {
+      await notificationService.markAsRead(notification.id);
+      setNotifications(prev => 
+        prev.map(n => n.id === notification.id ? { ...n, is_read: true } : n)
+      );
+    }
+  };
+
+  const markAllAsRead = async () => {
+    if (profile && unreadCount > 0) {
+      await notificationService.markAllAsRead(profile.id);
+      setNotifications(prev => prev.map(n => ({ ...n, is_read: true })));
+    }
+  };
 
   return (
     <header
@@ -89,32 +132,97 @@ export function Header() {
       {/* Stats */}
       <div className="flex items-center gap-2">
         {/* Streak */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 border border-orange-500/20">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 border border-orange-500/20">
           <span className="text-base">🔥</span>
           <span className="text-sm font-bold text-orange-400">{streak.current_streak}</span>
         </div>
 
         {/* XP */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
           <Zap className="w-4 h-4 text-cyan-400" />
           <span className="text-sm font-bold text-cyan-400">{xp}</span>
         </div>
 
         {/* Bytes (moneda) */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-500/10 border border-violet-500/20">
+        <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-500/10 border border-violet-500/20">
           <Gem className="w-4 h-4 text-violet-400" />
           <span className="text-sm font-bold text-violet-400">{bytes}</span>
         </div>
 
         {/* Notifications */}
-        <button
-          className="relative p-2 rounded-xl text-[--text-muted] hover:text-white hover:bg-[--bg-elevated] transition-all"
-          aria-label="Notificaciones"
-        >
-          <Bell className="w-5 h-5" />
-          {/* Indicador */}
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-cyan-400 rounded-full" />
-        </button>
+        <div className="relative" ref={notificationRef}>
+          <button
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="relative p-2 rounded-xl text-[--text-muted] hover:text-white hover:bg-[--bg-elevated] transition-all"
+            aria-label="Notificaciones"
+          >
+            <Bell className="w-5 h-5" />
+            {unreadCount > 0 && (
+              <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 border-2 border-[#0a0e1a] rounded-full" />
+            )}
+          </button>
+
+          {/* Menú de Notificaciones */}
+          <AnimatePresence>
+            {showNotifications && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className="absolute right-0 mt-2 w-80 max-h-96 flex flex-col bg-[--bg-surface] border border-[--border-default] rounded-2xl shadow-2xl overflow-hidden z-50"
+              >
+                <div className="px-4 py-3 border-b border-[--border-default] flex items-center justify-between">
+                  <h3 className="font-bold text-white">Notificaciones</h3>
+                  {unreadCount > 0 && (
+                    <button 
+                      onClick={markAllAsRead}
+                      className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1 font-medium"
+                    >
+                      <Check className="w-3 h-3" /> Marcar leídas
+                    </button>
+                  )}
+                </div>
+
+                <div className="overflow-y-auto flex-1 custom-scrollbar">
+                  {notifications.length === 0 ? (
+                    <div className="p-8 text-center text-[--text-muted]">
+                      <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">No tienes notificaciones</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col">
+                      {notifications.map(notification => (
+                        <div 
+                          key={notification.id}
+                          onClick={() => handleNotificationClick(notification)}
+                          className={cn(
+                            "px-4 py-3 border-b border-white/5 cursor-pointer hover:bg-white/5 transition-colors flex gap-3",
+                            !notification.is_read ? "bg-cyan-500/5" : ""
+                          )}
+                        >
+                          <div className="mt-1 text-2xl shrink-0">
+                            {notification.metadata?.icon || (notification.type === 'achievement' ? '🏆' : '👋')}
+                          </div>
+                          <div>
+                            <div className="flex items-start justify-between gap-2">
+                              <h4 className={cn("text-sm font-bold", !notification.is_read ? "text-white" : "text-[--text-secondary]")}>
+                                {notification.title}
+                              </h4>
+                              {!notification.is_read && (
+                                <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 mt-1" />
+                              )}
+                            </div>
+                            <p className="text-xs text-[--text-muted] mt-1">{notification.message}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Avatar */}
         <button

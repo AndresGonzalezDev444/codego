@@ -1,11 +1,17 @@
 import { supabase } from '@/lib/supabase';
 import type { World, Course } from '@/types';
 
+// Simple in-memory cache
+let worldsCache: World[] | null = null;
+const worldBySlugCache = new Map<string, World>();
+
 export const worldService = {
   /**
    * Obtiene todos los mundos y su lenguaje asociado
    */
   async getWorlds(): Promise<World[]> {
+    if (worldsCache) return worldsCache;
+
     const { data, error } = await supabase
       .from('worlds')
       .select('*, language:languages(*)')
@@ -16,13 +22,18 @@ export const worldService = {
       throw error;
     }
 
-    return data as World[];
+    worldsCache = data as World[];
+    return worldsCache;
   },
 
   /**
    * Obtiene un mundo específico por slug con todos sus cursos
    */
   async getWorldBySlug(slug: string): Promise<World | null> {
+    if (worldBySlugCache.has(slug)) {
+      return worldBySlugCache.get(slug)!;
+    }
+
     const { data, error } = await supabase
       .from('worlds')
       .select('*, courses(*), language:languages(*)')
@@ -35,7 +46,9 @@ export const worldService = {
       throw error;
     }
 
-    return data as World;
+    const world = data as World;
+    worldBySlugCache.set(slug, world);
+    return world;
   },
 
   /**

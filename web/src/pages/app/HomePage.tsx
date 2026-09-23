@@ -264,7 +264,7 @@ export default function HomePage() {
             variant="secondary"
             fullWidth
             rightIcon={<ArrowRight className="w-4 h-4" />}
-            onClick={() => navigate('/app/worlds')}
+            onClick={() => navigate('/app/map')}
           >
             Ver mis cursos
           </Button>

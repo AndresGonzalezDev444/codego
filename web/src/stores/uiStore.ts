@@ -24,6 +24,7 @@ interface UIState {
 }
 
 let toastIdCounter = 0;
+let byteTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
 export const useUIStore = create<UIState>()(
   persist(
@@ -58,8 +59,20 @@ export const useUIStore = create<UIState>()(
       removeToast: (id) =>
         set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
 
-      setByte: (mood, message) =>
-        set({ byteMood: mood, byteMessage: message ?? null }),
+      setByte: (mood, message) => {
+        set({ byteMood: mood, byteMessage: message ?? null });
+        
+        // Limpiar el timeout anterior si existe
+        if (byteTimeoutId) clearTimeout(byteTimeoutId);
+        
+        // Si el nuevo mood no es idle, programar el regreso a idle tras 5 segundos
+        if (mood !== 'idle') {
+          byteTimeoutId = setTimeout(() => {
+            set({ byteMood: 'idle', byteMessage: null });
+            byteTimeoutId = null;
+          }, 5000);
+        }
+      },
 
       showByte: () => set({ byteVisible: true }),
       hideByte: () => set({ byteVisible: false }),

@@ -9,6 +9,19 @@ export interface LessonData extends Lesson {
   })[];
 }
 
+export interface RecordAttemptParams {
+  user_id: string;
+  exercise_id: string;
+  is_correct: boolean;
+  code_submitted?: string;
+  user_answer?: any;
+  xp_earned?: number;
+  bytes_earned?: number;
+  hints_used?: number;
+  time_spent_seconds?: number;
+  execution_time_ms?: number;
+}
+
 export const exerciseService = {
   /**
    * Obtiene todos los datos de una lección (teoría, ejercicios, opciones, tests, hints)
@@ -53,27 +66,18 @@ export const exerciseService = {
   /**
    * Registra un intento de ejercicio
    */
-  async recordAttempt(
-    userId: string, 
-    exerciseId: string, 
-    isCorrect: boolean, 
-    userAnswer: any, 
-    xpEarned: number, 
-    bytesEarned: number,
-    hintsUsed: number = 0,
-    timeSpentSeconds: number = 0
-  ) {
+  async recordAttempt(params: RecordAttemptParams) {
     const { error } = await supabase
       .from('exercise_attempts')
       .insert({
-        user_id: userId,
-        exercise_id: exerciseId,
-        is_correct: isCorrect,
-        user_answer: userAnswer,
-        xp_earned: xpEarned,
-        bytes_earned: bytesEarned,
-        hints_used: hintsUsed,
-        time_spent_seconds: timeSpentSeconds
+        user_id: params.user_id,
+        exercise_id: params.exercise_id,
+        is_correct: params.is_correct,
+        user_answer: params.user_answer || params.code_submitted, // guardamos el código u opción aquí
+        xp_earned: params.xp_earned || 0,
+        bytes_earned: params.bytes_earned || 0,
+        hints_used: params.hints_used || 0,
+        time_spent_seconds: params.time_spent_seconds || 0
       });
 
     if (error) console.error('Error recording attempt:', error);

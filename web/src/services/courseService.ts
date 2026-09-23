@@ -5,11 +5,17 @@ export interface CourseMapData {
   units: (Unit & { lessons: Lesson[] })[];
 }
 
+const courseMapCache = new Map<string, CourseMapData>();
+
 export const courseService = {
   /**
    * Obtiene la jerarquía completa de un curso: Unidades -> Lecciones
    */
   async getCourseMap(courseId: string): Promise<CourseMapData> {
+    if (courseMapCache.has(courseId)) {
+      return courseMapCache.get(courseId)!;
+    }
+
     const { data, error } = await supabase
       .from('units')
       .select(`
@@ -33,7 +39,9 @@ export const courseService = {
       return unit;
     });
 
-    return { units };
+    const result = { units };
+    courseMapCache.set(courseId, result);
+    return result;
   },
 
   /**

@@ -223,9 +223,11 @@ export interface Achievement {
 }
 
 export interface Streak {
+  id: string;
+  user_id: string;
   current_streak: number;
   longest_streak: number;
-  last_activity_date?: string;
+  last_activity_date: string;
 }
 
 export interface LeaderboardEntry {
@@ -254,7 +256,9 @@ export type NotificationType =
   | 'level_up'
   | 'lesson_available'
   | 'streak_reminder'
-  | 'return_reminder';
+  | 'return_reminder'
+  | 'system'
+  | 'reminder';
 
 // --- BYTE ---
 export type ByteMood =
