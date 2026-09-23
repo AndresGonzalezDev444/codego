@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Fira+Code:wght@400;500;600&display=swap');
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ============================================
+   CODEGO! DESIGN SYSTEM — CSS CUSTOM TOKENS
+   ============================================ */
+
+@theme {
+  /* Paleta de colores */
+  --color-navy-950: #050915;
+  --color-navy-900: #0a0e1a;
+  --color-navy-800: #0e1525;
+  --color-navy-700: #141830;
+  --color-navy-600: #1a2040;
+  --color-navy-500: #202848;
+
+  --color-cyan-400: #22e0ff;
+  --color-cyan-500: #00d4ff;
+  --color-cyan-600: #00b8e0;
+  --color-cyan-glow: #00d4ff40;
+
+  --color-violet-400: #a855f7;
+  --color-violet-500: #7c3aed;
+  --color-violet-600: #6d28d9;
+  --color-violet-glow: #7c3aed40;
+
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+
+  --color-orange-400: #fb923c;
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+
+  --color-yellow-400: #facc15;
+  --color-yellow-500: #eab308;
+
+  /* Tipografía */
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Montserrat', system-ui, sans-serif;
+  --font-code: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', monospace;
+
+  /* Tamaños de fuente */
+  --text-display: 3.5rem;
+  --text-h1: 2.25rem;
+  --text-h2: 1.75rem;
+  --text-h3: 1.375rem;
+  --text-body-lg: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-caption: 0.75rem;
+  --text-code: 0.9375rem;
+
+  /* Border radius */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* Sombras y glow */
+  --shadow-card: 0 4px 24px 0 rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 8px 40px 0 rgba(0, 0, 0, 0.5);
+  --shadow-glow-cyan: 0 0 20px rgba(0, 212, 255, 0.3);
+  --shadow-glow-violet: 0 0 20px rgba(124, 58, 237, 0.3);
+  --shadow-glow-orange: 0 0 20px rgba(249, 115, 22, 0.3);
+
+  /* Animaciones */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================
+   ROOT / TEMA OSCURO (por defecto)
+   ============================================ */
+
+:root {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --bg-base: #050915;
+  --bg-surface: #0e1525;
+  --bg-elevated: #141830;
+  --bg-hover: #1a2040;
+  --bg-active: #202848;
+
+  /* Texto */
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-accent: #00d4ff;
+
+  /* Bordes */
+  --border-default: #1e293b;
+  --border-accent: #00d4ff30;
+  --border-glow: #00d4ff50;
+}
+
+/* Tema claro */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-base: #f0f4ff;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f8faff;
+  --bg-hover: #e8eeff;
+  --bg-active: #dde7ff;
+
+  --text-primary: #0a0e1a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-accent: #0070cc;
+
+  --border-default: #e2e8f0;
+  --border-accent: #0070cc30;
+  --border-glow: #0070cc50;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-body);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Focus visible para accesibilidad */
+:focus-visible {
+  outline: 2px solid #00d4ff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tipografía base */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+code, pre, .code {
+  font-family: var(--font-code);
+}
+
+/* ============================================
+   UTILIDADES CODEGO!
+   ============================================ */
+
+/* Glass morphism */
+.glass {
+  background: rgba(14, 21, 37, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+}
+
+.glow-violet {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
+}
+
+.glow-orange {
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.25);
+}
+
+/* Gradientes de texto */
+.gradient-text {
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-warm {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Borde luminoso animado */
+.border-glow-animated {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.border-glow-animated::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, #00d4ff, #7c3aed, #00d4ff);
+  background-size: 200% 200%;
+  animation: borderGlow 3s linear infinite;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+@keyframes borderGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animaciones de XP */
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-60px); opacity: 0; }
+}
+
+.xp-float {
+  animation: floatUp 1.2s var(--ease-out) forwards;
+}
+
+/* Pulse suave para badges activos */
+@keyframes subtlePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+.pulse-subtle {
+  animation: subtlePulse 2s ease-in-out infinite;
+}
+
+/* Shimmer para loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface) 25%,
+    var(--bg-elevated) 50%,
+    var(--bg-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* Transiciones globales */
+.transition-all-fast {
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.transition-all-normal {
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   CODEEDITOR OVERRIDES
+   ============================================ */
+
+.cm-editor {
+  border-radius: var(--radius-md);
+  font-family: var(--font-code) !important;
+  font-size: var(--text-code) !important;
+}
+
+.cm-editor.cm-focused {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.3);
+}
+
+.cm-scroller {
+  font-family: var(--font-code) !important;
+}
