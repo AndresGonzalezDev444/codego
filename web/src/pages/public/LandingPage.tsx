@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, ChevronRight, Github, Globe, Code2 } from 'lucide-react';
+import { ArrowRight, Zap, ChevronRight, Terminal, Globe, Code2 } from 'lucide-react';
 import { Byte } from '@/components/byte/Byte';
 import { Button } from '@/components/ui/Button';
 
@@ -170,7 +170,7 @@ export default function LandingPage() {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
                 <a href="https://github.com/AndresGonzalezDev444/codego" target="_blank" rel="noreferrer">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto" leftIcon={<Github className="w-5 h-5" />}>
+                  <Button variant="outline" size="lg" className="w-full sm:w-auto" leftIcon={<Terminal className="w-5 h-5" />}>
                     Ver en GitHub
                   </Button>
                 </a>
