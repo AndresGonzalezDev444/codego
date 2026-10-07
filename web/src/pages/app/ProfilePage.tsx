@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { User, Flame, Zap, Gem, Calendar, Star, Crown } from 'lucide-react';
+import { User, Flame, Zap, Gem, Calendar, Star, Crown, Trophy } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
 import { useProgressStore, levelToXP } from '@/stores/progressStore';
 import { Card } from '@/components/ui/Card';
@@ -132,8 +132,8 @@ export default function ProfilePage() {
 
             {achievements.length === 0 ? (
               <div className="text-center py-12 px-4">
-                <div className="w-16 h-16 rounded-full bg-[--bg-base] border-2 border-[--border-default] flex items-center justify-center mx-auto mb-4 text-2xl grayscale opacity-50">
-                  🏆
+                <div className="w-16 h-16 rounded-full bg-[--bg-base] border-2 border-[--border-default] flex items-center justify-center mx-auto mb-4 opacity-40">
+                  <Trophy className="w-8 h-8 text-yellow-400" />
                 </div>
                 <h3 className="text-white font-bold mb-2">Aún no hay logros</h3>
                 <p className="text-sm text-[--text-secondary] max-w-sm mx-auto">
@@ -159,7 +159,9 @@ export default function ProfilePage() {
                       'bg-[--bg-surface] border-[--border-default]'
                     )}
                   >
-                    <div className="text-3xl shrink-0 drop-shadow-lg">{achievement.icon}</div>
+                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+                      <Trophy className="w-5 h-5 text-yellow-400 drop-shadow-lg" />
+                    </div>
                     <div>
                       <h4 className="font-bold text-white text-sm">{achievement.name}</h4>
                       <p className="text-xs text-[--text-muted]">{achievement.description}</p>

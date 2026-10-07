@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Home, Map, BookOpen, Trophy, BarChart2, User,
-  ChevronRight, LogOut, Settings, Zap, Gem, Sparkles
+  ChevronRight, LogOut, Settings, Zap, Gem, Sparkles, Flame, Heart
 } from 'lucide-react';
 import { Byte } from '@/components/byte/Byte';
 import { useAuthStore } from '@/stores/authStore';
@@ -150,11 +150,11 @@ export function Sidebar() {
             {/* Stats rápidos */}
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-1 text-orange-400">
-                <span>🔥</span>
+                <Flame className="w-3 h-3" />
                 <span className="font-semibold">{streak.current_streak}</span>
               </div>
               <div className="flex items-center gap-1 text-red-500">
-                <span className="font-semibold text-[10px]">❤️</span>
+                <Heart className="w-3 h-3" fill="currentColor" />
                 <span className="font-semibold">{profile?.is_plus ? '∞' : (profile?.hearts ?? 5)}</span>
                 {!profile?.is_plus && formattedTime && <span className="text-[10px] ml-0.5 opacity-80">{formattedTime}</span>}
               </div>

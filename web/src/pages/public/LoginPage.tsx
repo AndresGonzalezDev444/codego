@@ -58,8 +58,8 @@ export default function LoginPage() {
         {/* Estadísticas ficticias */}
         <div className="flex gap-8 mt-10">
           {[
-            { value: '10K+', label: 'Estudiantes' },
-            { value: '500+', label: 'Lecciones' },
+            { value: '10+', label: 'Estudiantes' },
+            { value: '5+', label: 'Lecciones' },
             { value: '9', label: 'Tipos de ejercicios' },
           ].map((s) => (
             <div key={s.label} className="text-center">

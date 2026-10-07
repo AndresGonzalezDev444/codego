@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, Lock } from 'lucide-react';
+import { Shield, Lock, Trophy } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { useProgressStore } from '@/stores/progressStore';
 import { Card } from '@/components/ui/Card';
@@ -80,8 +80,8 @@ export default function AchievementsPage() {
                 variant="elevated"
                 className="flex items-start gap-4 h-full"
               >
-                <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center text-3xl shrink-0 border-2", rarityClasses)}>
-                  {isUnlocked ? achievement.icon : <Lock className="w-6 h-6" />}
+                <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 border-2", rarityClasses)}>
+                  {isUnlocked ? <Trophy className="w-7 h-7" /> : <Lock className="w-6 h-6" />}
                 </div>
                 
                 <div className="flex-1">

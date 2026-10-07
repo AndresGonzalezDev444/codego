@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Map, Lock, ArrowRight, Play } from 'lucide-react';
+import { Map, Lock, ArrowRight, Play, Globe } from 'lucide-react';
 import { Byte } from '@/components/byte/Byte';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -84,13 +84,13 @@ export default function MapPage() {
                 style={{ background: `linear-gradient(to bottom, ${world.color_primary}30, transparent)` }}
               >
                 <div 
-                  className="w-20 h-20 rounded-full flex items-center justify-center text-4xl shadow-xl border-4"
+                  className="w-20 h-20 rounded-full flex items-center justify-center shadow-xl border-4"
                   style={{ 
                     borderColor: `${world.color_secondary}50`,
                     background: `linear-gradient(135deg, ${world.color_primary}, ${world.color_secondary})`
                   }}
                 >
-                  {world.language?.icon_url ?? '🌍'}
+                  <Globe className="w-9 h-9 text-white drop-shadow-md" />
                 </div>
               </div>
 

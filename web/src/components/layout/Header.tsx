@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Search, Bell, Menu, Zap, Gem, ChevronRight, Check } from 'lucide-react';
+import { Search, Bell, Menu, Zap, Gem, ChevronRight, Check, Flame, Trophy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import { useProgressStore } from '@/stores/progressStore';
@@ -133,7 +133,7 @@ export function Header() {
       <div className="flex items-center gap-2">
         {/* Streak */}
         <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-500/10 border border-orange-500/20">
-          <span className="text-base">🔥</span>
+          <Flame className="w-4 h-4 text-orange-400" />
           <span className="text-sm font-bold text-orange-400">{streak.current_streak}</span>
         </div>
 
@@ -200,8 +200,10 @@ export function Header() {
                             !notification.is_read ? "bg-cyan-500/5" : ""
                           )}
                         >
-                          <div className="mt-1 text-2xl shrink-0">
-                            {notification.metadata?.icon || (notification.type === 'achievement' ? '🏆' : '👋')}
+                          <div className="mt-1 shrink-0">
+                            {notification.type === 'achievement'
+                              ? <Trophy className="w-6 h-6 text-yellow-400" />
+                              : <Bell className="w-6 h-6 text-cyan-400" />}
                           </div>
                           <div>
                             <div className="flex items-start justify-between gap-2">

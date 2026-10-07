@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, ChevronRight, Terminal, Globe, Code2 } from 'lucide-react';
+import { ArrowRight, Zap, ChevronRight, Terminal, Globe, Code2, Map, Bot, MonitorPlay, Trophy, LayoutGrid, Flame, BarChart2, ShieldCheck } from 'lucide-react';
 import { Byte } from '@/components/byte/Byte';
 import { Button } from '@/components/ui/Button';
 
@@ -115,10 +115,10 @@ export default function LandingPage() {
               style={{ background: '#0e1525', border: '1px solid rgba(255,255,255,0.05)' }}
             >
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 text-xl"
+                className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
                 style={{ background: f.bg }}
               >
-                {f.icon}
+                <f.icon className="w-5 h-5" style={{ color: f.iconColor }} />
               </div>
               <h3 className="font-bold text-white mb-2">{f.title}</h3>
               <p className="text-sm text-[--text-secondary]">{f.desc}</p>
@@ -224,14 +224,14 @@ export default function LandingPage() {
 }
 
 const FEATURES = [
-  { icon: '🗺️', title: 'Code World', desc: 'Explora mundos temáticos de programación con misiones y desafíos.', bg: 'rgba(0,212,255,0.15)' },
-  { icon: '🤖', title: 'Byte', desc: 'Tu compañero de aventuras que te guía y celebra cada logro.', bg: 'rgba(124,58,237,0.15)' },
-  { icon: '💻', title: 'Code Lab', desc: 'Ejecuta código real directamente en el navegador con Python y JS.', bg: 'rgba(34,197,94,0.15)' },
-  { icon: '🏆', title: 'Gamificación', desc: 'XP, rachas, logros y ranking para mantenerte motivado.', bg: 'rgba(249,115,22,0.15)' },
-  { icon: '🧩', title: '9 tipos de ejercicios', desc: 'Opción múltiple, código, drag & drop, depuración y más.', bg: 'rgba(59,130,246,0.15)' },
-  { icon: '🔥', title: 'Racha diaria', desc: 'Mantén tu constancia con sistema de rachas y recompensas.', bg: 'rgba(239,68,68,0.15)' },
-  { icon: '📊', title: 'Progreso real', desc: 'Estadísticas detalladas de tu evolución como programador.', bg: 'rgba(250,204,21,0.15)' },
-  { icon: '🔐', title: '100% seguro', desc: 'Código ejecutado en sandbox seguro, auth robusta.', bg: 'rgba(16,185,129,0.15)' },
+  { icon: Map, iconColor: '#00d4ff', title: 'Code World', desc: 'Explora mundos temáticos de programación con misiones y desafíos.', bg: 'rgba(0,212,255,0.15)' },
+  { icon: Bot, iconColor: '#7c3aed', title: 'Byte', desc: 'Tu compañero de aventuras que te guía y celebra cada logro.', bg: 'rgba(124,58,237,0.15)' },
+  { icon: MonitorPlay, iconColor: '#22c55e', title: 'Code Lab', desc: 'Ejecuta código real directamente en el navegador con Python y JS.', bg: 'rgba(34,197,94,0.15)' },
+  { icon: Trophy, iconColor: '#f97316', title: 'Gamificación', desc: 'XP, rachas, logros y ranking para mantenerte motivado.', bg: 'rgba(249,115,22,0.15)' },
+  { icon: LayoutGrid, iconColor: '#3b82f6', title: '9 tipos de ejercicios', desc: 'Opción múltiple, código, drag & drop, depuración y más.', bg: 'rgba(59,130,246,0.15)' },
+  { icon: Flame, iconColor: '#ef4444', title: 'Racha diaria', desc: 'Mantén tu constancia con sistema de rachas y recompensas.', bg: 'rgba(239,68,68,0.15)' },
+  { icon: BarChart2, iconColor: '#facc15', title: 'Progreso real', desc: 'Estadísticas detalladas de tu evolución como programador.', bg: 'rgba(250,204,21,0.15)' },
+  { icon: ShieldCheck, iconColor: '#10b981', title: '100% seguro', desc: 'Código ejecutado en sandbox seguro, auth robusta.', bg: 'rgba(16,185,129,0.15)' },
 ];
 
 const STEPS = [

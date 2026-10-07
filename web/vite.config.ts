@@ -9,6 +9,10 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  // server para host
+  server:{
+    allowedHosts: true,
+  },
   resolve: {
     alias: {
       '@': resolve(import.meta.dirname, './src'),

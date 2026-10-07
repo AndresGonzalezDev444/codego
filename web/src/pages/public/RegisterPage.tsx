@@ -139,7 +139,7 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   required
                   className="w-full bg-[--bg-surface] border border-[--border-default] rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-[--text-muted] focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
-                  placeholder="Ada Lovelace"
+                  placeholder="andres gonzalez"
                 />
               </div>
             </div>
@@ -157,7 +157,7 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   required
                   className="w-full bg-[--bg-surface] border border-[--border-default] rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-[--text-muted] focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all"
-                  placeholder="adalovelace"
+                  placeholder="andresgonzalez"
                 />
               </div>
             </div>

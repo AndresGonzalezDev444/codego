@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Star, Lock, Check, Crown } from 'lucide-react';
+import { ArrowLeft, Star, Lock, Check, Crown, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Byte } from '@/components/byte/Byte';
 import { worldService } from '@/services/worldService';
@@ -122,12 +122,14 @@ export default function WorldsPage() {
                 background: `linear-gradient(135deg, ${world.color_primary}, ${world.color_secondary})`,
               }}
             >
-              <div>
-                <h2 className="text-xl font-black text-white mb-1">Unidad {unitIndex + 1}</h2>
-                <p className="text-white/80 text-sm font-medium">{unit.title}</p>
-              </div>
-              <div className="text-4xl bg-white/20 p-3 rounded-xl">
-                {unit.icon}
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-black text-white mb-1">Unidad {unitIndex + 1}</h2>
+                  <p className="text-white/80 text-sm font-medium">{unit.title}</p>
+                </div>
+                <div className="w-12 h-12 bg-white/20 flex items-center justify-center rounded-xl">
+                  <BookOpen className="w-6 h-6 text-white" />
+                </div>
               </div>
             </div>
 
